@@ -187,6 +187,21 @@ function startMoleRain() {
   moleRain.replaceChildren();
   const styles = ["mascot", "sketch", "pixel", "pop"];
   const count = window.innerWidth < 600 ? 13 : 22;
+  const guest = document.createElement("img");
+  const guestSize = window.innerWidth < 600 ? 58 : 72;
+
+  guest.src = "assets/falling-guest.png";
+  guest.alt = "";
+  guest.decoding = "async";
+  guest.setAttribute("aria-hidden", "true");
+  guest.setAttribute("class", "rain-mole rain-guest");
+  guest.style.setProperty("--x", `${12 + Math.round(Math.random() * 76)}%`);
+  guest.style.setProperty("--size", `${guestSize}px`);
+  guest.style.setProperty("--duration", `${2.8 + Math.random() * .8}s`);
+  guest.style.setProperty("--delay", `${.15 + Math.random() * .45}s`);
+  guest.style.setProperty("--drift", `${-40 + Math.round(Math.random() * 80)}px`);
+  guest.style.setProperty("--spin", `${-70 + Math.round(Math.random() * 140)}deg`);
+  moleRain.appendChild(guest);
 
   for (let index = 0; index < count; index += 1) {
     const mole = document.createElementNS("http://www.w3.org/2000/svg", "svg");
