@@ -12,6 +12,45 @@
 </head>
 <body>
   <div class="grain" aria-hidden="true"></div>
+  <svg class="mole-symbols" aria-hidden="true">
+    <symbol id="rain-mole-mascot" viewBox="0 0 100 100">
+      <ellipse cx="50" cy="88" rx="34" ry="8" fill="#503b31" opacity=".18"/>
+      <ellipse cx="50" cy="57" rx="34" ry="36" fill="#7d5947" stroke="#503b31" stroke-width="3"/>
+      <circle cx="24" cy="48" r="11" fill="#d9aa91" stroke="#503b31" stroke-width="3"/>
+      <circle cx="76" cy="48" r="11" fill="#d9aa91" stroke="#503b31" stroke-width="3"/>
+      <ellipse cx="50" cy="66" rx="24" ry="19" fill="#e4bda8"/>
+      <path d="M30 52q7-7 14 0m12 0q7-7 14 0" fill="none" stroke="#503b31" stroke-width="4" stroke-linecap="round"/>
+      <ellipse cx="50" cy="61" rx="8" ry="6" fill="#e99c8c" stroke="#503b31" stroke-width="2"/>
+      <path d="M44 72h12l-2 11h-8z" fill="#fffdf8" stroke="#503b31" stroke-width="2"/>
+    </symbol>
+    <symbol id="rain-mole-sketch" viewBox="0 0 100 100">
+      <path d="M18 78C11 47 26 18 51 20c29 2 39 31 30 61-16 8-47 9-63-3Z" fill="#f8f2e7" stroke="#3d3732" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M19 51c-13-14 5-25 15-10m47 9c12-15-6-25-16-9" fill="#f8f2e7" stroke="#3d3732" stroke-width="4" stroke-linecap="round"/>
+      <path d="M31 52l11-3m17 1 11 3M41 66q9 8 18 0" fill="none" stroke="#3d3732" stroke-width="4" stroke-linecap="round"/>
+      <path d="M43 58q7-7 14 0-6 10-14 0Z" fill="#f26b3a" stroke="#3d3732" stroke-width="3"/>
+      <path d="m36 27 5-10m14 9 8-9" fill="none" stroke="#3d3732" stroke-width="3" stroke-linecap="round"/>
+    </symbol>
+    <symbol id="rain-mole-pixel" viewBox="0 0 100 100">
+      <g shape-rendering="crispEdges">
+        <path d="M20 30h10V20h40v10h10v10h10v40H80v10H20V80H10V40h10Z" fill="#6c5143"/>
+        <path d="M10 40h20v20H10zm60 0h20v20H70Z" fill="#d99d88"/>
+        <path d="M30 40h10v10H30zm30 0h10v10H60Z" fill="#292522"/>
+        <path d="M40 50h20v10H40z" fill="#ef9a8a"/>
+        <path d="M30 60h40v20H30z" fill="#d7aa92"/>
+        <path d="M40 70h20v20H40z" fill="#fff8e9"/>
+      </g>
+    </symbol>
+    <symbol id="rain-mole-pop" viewBox="0 0 100 100">
+      <path d="M17 78c0-32 11-59 34-59 26 0 35 27 32 61-17 12-49 11-66-2Z" fill="#ffc95a" stroke="#2f2a26" stroke-width="4"/>
+      <circle cx="25" cy="45" r="13" fill="#f26b3a" stroke="#2f2a26" stroke-width="4"/>
+      <circle cx="77" cy="45" r="13" fill="#f26b3a" stroke="#2f2a26" stroke-width="4"/>
+      <circle cx="37" cy="49" r="8" fill="#fff"/><circle cx="65" cy="49" r="8" fill="#fff"/>
+      <circle cx="39" cy="50" r="4" fill="#2f2a26"/><circle cx="63" cy="50" r="4" fill="#2f2a26"/>
+      <path d="M42 64q9-13 18 0-9 12-18 0Z" fill="#f26b3a" stroke="#2f2a26" stroke-width="3"/>
+      <path d="M31 75q20 14 40 0" fill="none" stroke="#2f2a26" stroke-width="4" stroke-linecap="round"/>
+    </symbol>
+  </svg>
+  <div class="mole-rain" id="moleRain" aria-hidden="true"></div>
   <main>
     <header class="topbar">
       <a class="brand" href="#" aria-label="맛집 땅굴 룰렛 홈">
@@ -24,31 +63,31 @@
     </header>
 
     <section class="hero">
-      <div class="eyebrow"><span></span> 오늘의 점심 구조대</div>
+      <div class="eyebrow"><span></span> 오늘의 밥 구조대</div>
       <h1>고민은 그만,<br><em>두더지</em>에게 맡겨봐!</h1>
       <p>먹고 싶은 후보를 담고 룰렛을 돌려보세요.<br>오늘의 맛집을 두더지가 콕 골라드려요.</p>
     </section>
 
     <section class="game-layout">
       <div class="roulette-panel">
-        <div class="mole-wrap" id="moleWrap" aria-hidden="true">
-          <svg class="mole" viewBox="0 0 230 200">
-            <ellipse class="mole-shadow" cx="115" cy="178" rx="104" ry="19"/>
-            <path class="mole-body" d="M52 173c-3-52 10-102 63-102s67 50 63 102H52Z"/>
-            <ellipse class="mole-ear" cx="57" cy="99" rx="24" ry="29"/>
-            <ellipse class="mole-ear-inner" cx="58" cy="100" rx="12" ry="16"/>
-            <ellipse class="mole-ear" cx="173" cy="99" rx="24" ry="29"/>
-            <ellipse class="mole-ear-inner" cx="172" cy="100" rx="12" ry="16"/>
-            <path class="mole-head" d="M42 116c0-58 29-96 73-96s73 38 73 96c0 43-32 66-73 66s-73-23-73-66Z"/>
-            <ellipse class="mole-muzzle" cx="115" cy="128" rx="54" ry="39"/>
-            <path class="mole-eye" d="M70 96c8-7 17-7 25 0"/>
-            <path class="mole-eye" d="M135 96c8-7 17-7 25 0"/>
-            <ellipse class="mole-nose" cx="115" cy="115" rx="18" ry="13"/>
-            <path class="mole-mouth" d="M115 128c-1 13-10 19-21 18m21-18c1 13 10 19 21 18"/>
-            <path class="mole-tooth" d="M105 146h20l-3 17h-14l-3-17Z"/>
-            <path class="mole-hand" d="M49 151c-16 0-31-5-38-15 6-4 15-2 20 2-3-6-3-12 1-15 8 5 13 13 17 28Z"/>
-            <path class="mole-hand" d="M181 151c16 0 31-5 38-15-6-4-15-2-20 2 3-6 3-12-1-15-8 5-13 13-17 28Z"/>
+        <div class="digger-scene" id="diggerScene" aria-hidden="true">
+          <span class="dirt dirt-one"></span><span class="dirt dirt-two"></span><span class="dirt dirt-three"></span>
+          <svg class="digger-mole" viewBox="0 0 220 170">
+            <ellipse class="dig-hole" cx="110" cy="148" rx="105" ry="22"/>
+            <g class="dig-head">
+              <circle class="dig-ear" cx="62" cy="71" r="24"/><circle class="dig-ear-inner" cx="62" cy="71" r="12"/>
+              <circle class="dig-ear" cx="158" cy="71" r="24"/><circle class="dig-ear-inner" cx="158" cy="71" r="12"/>
+              <path class="dig-face" d="M45 111c0-59 26-91 65-91s65 32 65 91c0 32-28 48-65 48s-65-16-65-48Z"/>
+              <ellipse class="dig-muzzle" cx="110" cy="112" rx="47" ry="32"/>
+              <path class="dig-eye" d="M72 81q10-9 20 0m36 0q10-9 20 0"/>
+              <ellipse class="dig-nose" cx="110" cy="101" rx="15" ry="11"/>
+              <path class="dig-mouth" d="M110 112q-2 16-18 17m18-17q2 16 18 17"/>
+            </g>
+            <path class="dig-paw dig-paw-left" d="M58 119c-25-4-43-1-55 10 9 2 15 6 19 12-8-1-15 1-19 6 25 7 47-1 65-17Z"/>
+            <path class="dig-paw dig-paw-right" d="M162 119c25-4 43-1 55 10-9 2-15 6-19 12 8-1 15 1 19 6-25 7-47-1-65-17Z"/>
+            <path class="dig-mound" d="M0 150c26-25 53-18 72-8 24-20 53-16 75 0 23-11 51-13 73 8v20H0Z"/>
           </svg>
+          <span class="dig-caption">영차영차! 땅굴 파는 중</span>
         </div>
 
         <div class="wheel-stage">
@@ -62,9 +101,29 @@
         </div>
 
         <div class="result-box" id="resultBox" aria-live="polite">
-          <span class="result-label">오늘은 여기 어때?</span>
-          <strong id="resultName">룰렛을 돌려주세요!</strong>
-          <span class="result-category" id="resultCategory">두더지가 기다리고 있어요</span>
+          <div class="result-pending" id="resultPending">룰렛을 돌려주세요!<small>두더지가 기다리고 있어요</small></div>
+          <div class="result-character">
+            <svg class="result-mole-art" viewBox="0 0 260 160" aria-hidden="true">
+              <ellipse cx="130" cy="145" rx="82" ry="13" fill="#503b31" opacity=".2"/>
+              <circle cx="84" cy="65" r="28" fill="#7d5947" stroke="#503b31" stroke-width="4"/>
+              <circle cx="176" cy="65" r="28" fill="#7d5947" stroke="#503b31" stroke-width="4"/>
+              <circle cx="84" cy="65" r="14" fill="#d9aa91"/>
+              <circle cx="176" cy="65" r="14" fill="#d9aa91"/>
+              <ellipse cx="130" cy="86" rx="67" ry="68" fill="#7d5947" stroke="#503b31" stroke-width="4"/>
+              <ellipse cx="130" cy="102" rx="46" ry="35" fill="#d9aa91"/>
+              <path d="M91 79q10-9 21 0m36 0q10-9 21 0" fill="none" stroke="#503b31" stroke-width="5" stroke-linecap="round"/>
+              <ellipse cx="130" cy="94" rx="16" ry="12" fill="#e99c8c" stroke="#503b31" stroke-width="3"/>
+              <path d="M130 106q-2 13-17 16m17-16q2 13 17 16" fill="none" stroke="#503b31" stroke-width="4" stroke-linecap="round"/>
+              <path d="M119 120h22l-3 19h-16Z" fill="#fffdf8" stroke="#503b31" stroke-width="2"/>
+            </svg>
+            <div class="result-sign">
+              <span class="result-label">오늘의 밥 구조 완료!</span>
+              <strong id="resultName">맛집 이름</strong>
+              <span class="result-category" id="resultCategory">카테고리</span>
+            </div>
+            <span class="sign-paw sign-paw-left"></span>
+            <span class="sign-paw sign-paw-right"></span>
+          </div>
         </div>
       </div>
 

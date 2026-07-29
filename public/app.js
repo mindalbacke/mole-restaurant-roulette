@@ -19,7 +19,9 @@ const activeCount = document.getElementById("activeCount");
 const resultBox = document.getElementById("resultBox");
 const resultName = document.getElementById("resultName");
 const resultCategory = document.getElementById("resultCategory");
-const moleWrap = document.getElementById("moleWrap");
+const resultPending = document.getElementById("resultPending");
+const roulettePanel = document.querySelector(".roulette-panel");
+const moleRain = document.getElementById("moleRain");
 const addForm = document.getElementById("addForm");
 const newRestaurant = document.getElementById("newRestaurant");
 const newCategory = document.getElementById("newCategory");
@@ -32,6 +34,7 @@ let rotation = 0;
 let spinning = false;
 let soundOn = false;
 let toastTimer;
+let rainCleanupTimer;
 
 function loadRestaurants() {
   try {
@@ -161,6 +164,35 @@ function playTick(frequency = 450, duration = 0.04) {
   oscillator.stop(audio.currentTime + duration);
 }
 
+function startMoleRain() {
+  clearTimeout(rainCleanupTimer);
+  moleRain.replaceChildren();
+  const styles = ["mascot", "sketch", "pixel", "pop"];
+  const count = window.innerWidth < 600 ? 13 : 22;
+
+  for (let index = 0; index < count; index += 1) {
+    const mole = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+    const use = document.createElementNS("http://www.w3.org/2000/svg", "use");
+    const artStyle = styles[index % styles.length];
+    mole.setAttribute("viewBox", "0 0 100 100");
+    mole.setAttribute("class", `rain-mole rain-mole-${artStyle}`);
+    mole.setAttribute("aria-hidden", "true");
+    mole.style.setProperty("--x", `${Math.round(Math.random() * 94)}%`);
+    mole.style.setProperty("--size", `${42 + Math.round(Math.random() * 48)}px`);
+    mole.style.setProperty("--duration", `${2.2 + Math.random() * 2}s`);
+    mole.style.setProperty("--delay", `${-Math.random() * 1.8 + index * .08}s`);
+    mole.style.setProperty("--drift", `${-55 + Math.round(Math.random() * 110)}px`);
+    mole.style.setProperty("--spin", `${-280 + Math.round(Math.random() * 560)}deg`);
+    use.setAttribute("href", `#rain-mole-${artStyle}`);
+    mole.appendChild(use);
+    moleRain.appendChild(mole);
+  }
+}
+
+function stopMoleRain() {
+  rainCleanupTimer = setTimeout(() => moleRain.replaceChildren(), 900);
+}
+
 function spin() {
   const items = selectedRestaurants();
   if (spinning) return;
@@ -172,9 +204,9 @@ function spin() {
   spinning = true;
   spinButton.disabled = true;
   resultBox.classList.remove("revealed");
-  resultName.textContent = "두더지가 고르는 중…";
-  resultCategory.textContent = "땅굴을 열심히 파고 있어요";
-  moleWrap.classList.remove("show");
+  resultPending.innerHTML = "두더지가 고르는 중…<small>앞발로 열심히 땅굴을 파고 있어요</small>";
+  roulettePanel.classList.add("is-spinning");
+  startMoleRain();
 
   const winnerIndex = Math.floor(Math.random() * items.length);
   const slice = (Math.PI * 2) / items.length;
@@ -210,8 +242,9 @@ function spin() {
       const winner = items[winnerIndex];
       resultName.textContent = winner.name;
       resultCategory.textContent = `${winner.category} · 맛있는 선택 완료!`;
+      roulettePanel.classList.remove("is-spinning");
       resultBox.classList.add("revealed");
-      moleWrap.classList.add("show");
+      stopMoleRain();
       playTick(720, .15);
     }
   }
