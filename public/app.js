@@ -15,6 +15,8 @@ const ctx = canvas.getContext("2d");
 const spinButton = document.getElementById("spinButton");
 const restaurantList = document.getElementById("restaurantList");
 const categoryFilters = document.getElementById("categoryFilters");
+const categoryPrev = document.getElementById("categoryPrev");
+const categoryNext = document.getElementById("categoryNext");
 const activeCount = document.getElementById("activeCount");
 const resultBox = document.getElementById("resultBox");
 const resultName = document.getElementById("resultName");
@@ -54,10 +56,26 @@ function selectedRestaurants() {
 }
 
 function renderFilters() {
+  const scrollPosition = categoryFilters.scrollLeft;
   const categories = ["전체", ...new Set(restaurants.map((item) => item.category))];
   categoryFilters.innerHTML = categories.map((category) => `
     <button class="filter-chip ${category === currentFilter ? "active" : ""}" type="button" data-category="${escapeHtml(category)}">${escapeHtml(category)}</button>
   `).join("");
+  requestAnimationFrame(() => {
+    categoryFilters.scrollLeft = scrollPosition;
+    updateCategoryArrows();
+  });
+}
+
+function updateCategoryArrows() {
+  const maxScroll = categoryFilters.scrollWidth - categoryFilters.clientWidth;
+  categoryPrev.disabled = categoryFilters.scrollLeft <= 2;
+  categoryNext.disabled = maxScroll <= 2 || categoryFilters.scrollLeft >= maxScroll - 2;
+}
+
+function scrollCategories(direction) {
+  const distance = Math.max(categoryFilters.clientWidth * .72, 120);
+  categoryFilters.scrollBy({ left: distance * direction, behavior: "smooth" });
 }
 
 function renderList() {
@@ -259,6 +277,10 @@ categoryFilters.addEventListener("click", (event) => {
   renderList();
 });
 
+categoryPrev.addEventListener("click", () => scrollCategories(-1));
+categoryNext.addEventListener("click", () => scrollCategories(1));
+categoryFilters.addEventListener("scroll", updateCategoryArrows, { passive: true });
+
 restaurantList.addEventListener("change", (event) => {
   const input = event.target.closest("input[data-index]");
   if (!input) return;
@@ -306,7 +328,10 @@ soundButton.addEventListener("click", () => {
 });
 
 spinButton.addEventListener("click", spin);
-window.addEventListener("resize", drawWheel);
+window.addEventListener("resize", () => {
+  drawWheel();
+  updateCategoryArrows();
+});
 document.fonts?.ready.then(drawWheel);
 
 renderFilters();
