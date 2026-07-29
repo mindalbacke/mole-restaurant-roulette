@@ -9,7 +9,7 @@ const initialRestaurants = [
   { name: "연탄 불고기", category: "한식", active: true }
 ];
 
-const colors = ["#F26B3A", "#FFC95A", "#7D5947", "#E99C8C", "#6F8C53", "#E6A55C", "#B8785E", "#E4C876"];
+const colors = ["#5B3E2E", "#8A6248", "#B88C64", "#6C503D", "#9C795A", "#76634B", "#C29D75", "#4C382D"];
 const canvas = document.getElementById("wheel");
 const ctx = canvas.getContext("2d");
 const spinButton = document.getElementById("spinButton");
@@ -128,7 +128,7 @@ function drawWheel() {
     ctx.rotate(start + slice / 2);
     ctx.textAlign = "right";
     ctx.textBaseline = "middle";
-    ctx.fillStyle = [1, 3, 5, 7].includes(index % colors.length) ? "#3B302A" : "#FFFDF8";
+    ctx.fillStyle = [2, 4, 6].includes(index % colors.length) ? "#36271F" : "#F6E5CD";
     const size = items.length > 10 ? 20 : items.length > 7 ? 24 : 28;
     ctx.font = `700 ${size}px 'Noto Sans KR'`;
     ctx.fillText(fitWheelText(item.name, items.length > 9 ? 6 : 8), radius - 30, 0);

@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#F8F2E7">
+  <meta name="theme-color" content="#8A654A">
   <title>오늘 뭐 먹지? — 맛집 땅굴 룰렛</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -12,12 +12,19 @@
 </head>
 <body>
   <div class="grain" aria-hidden="true"></div>
+  <div class="earth-decor" aria-hidden="true">
+    <span class="weed weed-one"><i></i><i></i><i></i></span>
+    <span class="weed weed-two"><i></i><i></i><i></i></span>
+    <span class="weed weed-three"><i></i><i></i><i></i></span>
+    <span class="weed weed-four"><i></i><i></i><i></i></span>
+    <span class="pebble pebble-one"></span>
+    <span class="pebble pebble-two"></span>
+    <span class="pebble pebble-three"></span>
+  </div>
   <svg class="mole-symbols" aria-hidden="true">
     <symbol id="rain-mole-mascot" viewBox="0 0 100 100">
       <ellipse cx="50" cy="88" rx="34" ry="8" fill="#503b31" opacity=".18"/>
       <ellipse cx="50" cy="57" rx="34" ry="36" fill="#7d5947" stroke="#503b31" stroke-width="3"/>
-      <circle cx="24" cy="48" r="11" fill="#d9aa91" stroke="#503b31" stroke-width="3"/>
-      <circle cx="76" cy="48" r="11" fill="#d9aa91" stroke="#503b31" stroke-width="3"/>
       <ellipse cx="50" cy="66" rx="24" ry="19" fill="#e4bda8"/>
       <path d="M30 52q7-7 14 0m12 0q7-7 14 0" fill="none" stroke="#503b31" stroke-width="4" stroke-linecap="round"/>
       <ellipse cx="50" cy="61" rx="8" ry="6" fill="#e99c8c" stroke="#503b31" stroke-width="2"/>
@@ -25,15 +32,13 @@
     </symbol>
     <symbol id="rain-mole-sketch" viewBox="0 0 100 100">
       <path d="M18 78C11 47 26 18 51 20c29 2 39 31 30 61-16 8-47 9-63-3Z" fill="#f8f2e7" stroke="#3d3732" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
-      <path d="M19 51c-13-14 5-25 15-10m47 9c12-15-6-25-16-9" fill="#f8f2e7" stroke="#3d3732" stroke-width="4" stroke-linecap="round"/>
       <path d="M31 52l11-3m17 1 11 3M41 66q9 8 18 0" fill="none" stroke="#3d3732" stroke-width="4" stroke-linecap="round"/>
-      <path d="M43 58q7-7 14 0-6 10-14 0Z" fill="#f26b3a" stroke="#3d3732" stroke-width="3"/>
+      <path d="M43 58q7-7 14 0-6 10-14 0Z" fill="#9b6550" stroke="#3d3732" stroke-width="3"/>
       <path d="m36 27 5-10m14 9 8-9" fill="none" stroke="#3d3732" stroke-width="3" stroke-linecap="round"/>
     </symbol>
     <symbol id="rain-mole-pixel" viewBox="0 0 100 100">
       <g shape-rendering="crispEdges">
         <path d="M20 30h10V20h40v10h10v10h10v40H80v10H20V80H10V40h10Z" fill="#6c5143"/>
-        <path d="M10 40h20v20H10zm60 0h20v20H70Z" fill="#d99d88"/>
         <path d="M30 40h10v10H30zm30 0h10v10H60Z" fill="#292522"/>
         <path d="M40 50h20v10H40z" fill="#ef9a8a"/>
         <path d="M30 60h40v20H30z" fill="#d7aa92"/>
@@ -41,12 +46,10 @@
       </g>
     </symbol>
     <symbol id="rain-mole-pop" viewBox="0 0 100 100">
-      <path d="M17 78c0-32 11-59 34-59 26 0 35 27 32 61-17 12-49 11-66-2Z" fill="#ffc95a" stroke="#2f2a26" stroke-width="4"/>
-      <circle cx="25" cy="45" r="13" fill="#f26b3a" stroke="#2f2a26" stroke-width="4"/>
-      <circle cx="77" cy="45" r="13" fill="#f26b3a" stroke="#2f2a26" stroke-width="4"/>
+      <path d="M17 78c0-32 11-59 34-59 26 0 35 27 32 61-17 12-49 11-66-2Z" fill="#b88b65" stroke="#2f2a26" stroke-width="4"/>
       <circle cx="37" cy="49" r="8" fill="#fff"/><circle cx="65" cy="49" r="8" fill="#fff"/>
       <circle cx="39" cy="50" r="4" fill="#2f2a26"/><circle cx="63" cy="50" r="4" fill="#2f2a26"/>
-      <path d="M42 64q9-13 18 0-9 12-18 0Z" fill="#f26b3a" stroke="#2f2a26" stroke-width="3"/>
+      <path d="M42 64q9-13 18 0-9 12-18 0Z" fill="#a86f5d" stroke="#2f2a26" stroke-width="3"/>
       <path d="M31 75q20 14 40 0" fill="none" stroke="#2f2a26" stroke-width="4" stroke-linecap="round"/>
     </symbol>
   </svg>
@@ -75,8 +78,6 @@
           <svg class="digger-mole" viewBox="0 0 220 170">
             <ellipse class="dig-hole" cx="110" cy="148" rx="105" ry="22"/>
             <g class="dig-head">
-              <circle class="dig-ear" cx="62" cy="71" r="24"/><circle class="dig-ear-inner" cx="62" cy="71" r="12"/>
-              <circle class="dig-ear" cx="158" cy="71" r="24"/><circle class="dig-ear-inner" cx="158" cy="71" r="12"/>
               <path class="dig-face" d="M45 111c0-59 26-91 65-91s65 32 65 91c0 32-28 48-65 48s-65-16-65-48Z"/>
               <ellipse class="dig-muzzle" cx="110" cy="112" rx="47" ry="32"/>
               <path class="dig-eye" d="M72 81q10-9 20 0m36 0q10-9 20 0"/>
@@ -105,10 +106,6 @@
           <div class="result-character">
             <svg class="result-mole-art" viewBox="0 0 260 160" aria-hidden="true">
               <ellipse cx="130" cy="145" rx="82" ry="13" fill="#503b31" opacity=".2"/>
-              <circle cx="84" cy="65" r="28" fill="#7d5947" stroke="#503b31" stroke-width="4"/>
-              <circle cx="176" cy="65" r="28" fill="#7d5947" stroke="#503b31" stroke-width="4"/>
-              <circle cx="84" cy="65" r="14" fill="#d9aa91"/>
-              <circle cx="176" cy="65" r="14" fill="#d9aa91"/>
               <ellipse cx="130" cy="86" rx="67" ry="68" fill="#7d5947" stroke="#503b31" stroke-width="4"/>
               <ellipse cx="130" cy="102" rx="46" ry="35" fill="#d9aa91"/>
               <path d="M91 79q10-9 21 0m36 0q10-9 21 0" fill="none" stroke="#503b31" stroke-width="5" stroke-linecap="round"/>
