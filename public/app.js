@@ -195,13 +195,14 @@ function startMoleRain() {
 
   guestSources.forEach((source, guestIndex) => {
     const guest = document.createElement("img");
+    const size = guestIndex === 1 ? Math.round(guestSize * 1.2) : guestSize;
     guest.src = source;
     guest.alt = "";
     guest.decoding = "async";
     guest.setAttribute("aria-hidden", "true");
     guest.setAttribute("class", "rain-mole rain-guest");
     guest.style.setProperty("--x", `${12 + Math.round(Math.random() * 76)}%`);
-    guest.style.setProperty("--size", `${guestSize}px`);
+    guest.style.setProperty("--size", `${size}px`);
     guest.style.setProperty("--duration", `${2.8 + Math.random() * .8}s`);
     guest.style.setProperty("--delay", `${.15 + Math.random() * .35 + guestIndex * .12}s`);
     guest.style.setProperty("--drift", `${-40 + Math.round(Math.random() * 80)}px`);
