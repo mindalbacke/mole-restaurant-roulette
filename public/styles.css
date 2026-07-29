@@ -77,7 +77,8 @@ button { color: inherit; }
 .rain-mole:nth-child(2n) { animation-timing-function: cubic-bezier(.34,.2,.55,.9); }
 .rain-mole:nth-child(3n) { filter: drop-shadow(0 7px 0 rgba(89,59,43,.18)); }
 .rain-guest {
-  height: auto;
+  width: auto;
+  height: var(--size);
   object-fit: contain;
   filter: drop-shadow(0 7px 7px rgba(58, 40, 31, .2));
 }
