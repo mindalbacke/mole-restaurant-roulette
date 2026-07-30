@@ -361,7 +361,9 @@ main { position: relative; z-index: 1; width: min(1180px, calc(100% - 40px)); ma
 .count-badge { padding: 7px 11px; border-radius: 999px; background: #d2b38e; color: var(--brown-dark); font-size: 12px; font-weight: 700; white-space: nowrap; }
 .count-badge b { color: var(--orange-dark); }
 
-.category-nav { display: grid; grid-template-columns: 34px minmax(0, 1fr) 34px; align-items: center; gap: 6px; margin: 24px 0 17px; }
+.category-mode { margin: 20px 0 8px; color: var(--muted); font-size: 12px; font-weight: 700; }
+.category-mode strong { color: var(--orange-dark); font-size: 14px; }
+.category-nav { display: grid; grid-template-columns: 34px minmax(0, 1fr) 34px; align-items: center; gap: 6px; margin: 0 0 17px; }
 .category-filters { display: flex; gap: 7px; min-width: 0; overflow-x: auto; scroll-behavior: smooth; scrollbar-width: none; padding: 3px 1px; }
 .category-filters::-webkit-scrollbar { display: none; }
 .category-arrow {

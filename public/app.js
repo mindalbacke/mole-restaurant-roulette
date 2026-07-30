@@ -17,6 +17,7 @@ const restaurantList = document.getElementById("restaurantList");
 const categoryFilters = document.getElementById("categoryFilters");
 const categoryPrev = document.getElementById("categoryPrev");
 const categoryNext = document.getElementById("categoryNext");
+const categoryMode = document.getElementById("categoryMode");
 const activeCount = document.getElementById("activeCount");
 const resultBox = document.getElementById("resultBox");
 const resultName = document.getElementById("resultName");
@@ -52,7 +53,9 @@ function saveRestaurants() {
 }
 
 function selectedRestaurants() {
-  return restaurants.filter((item) => item.active);
+  return restaurants.filter((item) => (
+    item.active && (currentFilter === "전체" || item.category === currentFilter)
+  ));
 }
 
 function renderFilters() {
@@ -61,6 +64,7 @@ function renderFilters() {
   categoryFilters.innerHTML = categories.map((category) => `
     <button class="filter-chip ${category === currentFilter ? "active" : ""}" type="button" data-category="${escapeHtml(category)}">${escapeHtml(category)}</button>
   `).join("");
+  categoryMode.textContent = currentFilter;
   requestAnimationFrame(() => {
     categoryFilters.scrollLeft = scrollPosition;
     updateCategoryArrows();
@@ -236,8 +240,8 @@ function stopMoleRain() {
 function spin() {
   const items = selectedRestaurants();
   if (spinning) return;
-  if (items.length < 2) {
-    showToast("맛집을 2개 이상 선택해 주세요!");
+  if (items.length === 0) {
+    showToast("이 분야에서 맛집을 1개 이상 선택해 주세요!");
     return;
   }
 
@@ -294,7 +298,14 @@ function spin() {
 categoryFilters.addEventListener("click", (event) => {
   const button = event.target.closest("[data-category]");
   if (!button) return;
+  if (spinning) {
+    showToast("룰렛이 멈춘 후 카테고리를 바꿔주세요.");
+    return;
+  }
   currentFilter = button.dataset.category;
+  rotation = 0;
+  resultBox.classList.remove("revealed");
+  resultPending.innerHTML = `${escapeHtml(currentFilter)} 룰렛을 돌려주세요!<small>선택한 분야의 맛집만 룰렛에 들어가요.</small>`;
   renderFilters();
   renderList();
 });
