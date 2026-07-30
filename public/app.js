@@ -1,14 +1,56 @@
 const initialRestaurants = [
-  { name: "정담 김치찌개", category: "한식", active: true },
-  { name: "골목 순대국", category: "한식", active: true },
-  { name: "마라공방", category: "중식", active: true },
-  { name: "소소한 스시", category: "일식", active: true },
-  { name: "오후의 파스타", category: "양식", active: true },
-  { name: "할머니 떡볶이", category: "분식", active: true },
-  { name: "바삭 돈카츠", category: "일식", active: true },
-  { name: "연탄 불고기", category: "한식", active: true }
+  { name: "모범반점", category: "중식", active: true },
+  { name: "참맛집", category: "한식", active: true },
+  { name: "생어거스틴", category: "동남아", active: true },
+  { name: "김치도가", category: "한식", active: true },
+  { name: "버거킹", category: "햄버거", active: true },
+  { name: "김가네", category: "분식", active: true },
+  { name: "온돈부리", category: "일식", active: true },
+  { name: "원조감자탕 일미집", category: "한식", active: true },
+  { name: "은스시", category: "일식", active: true },
+  { name: "샐러디", category: "기타", active: true },
+  { name: "써브웨이", category: "기타", active: true },
+  { name: "프레퍼스", category: "기타", active: true },
+  { name: "샤오바오", category: "중식", active: true },
+  { name: "청담동마녀김밥", category: "분식", active: true },
+  { name: "온타이키친", category: "동남아", active: true },
+  { name: "상냥한 그놈의 밥상", category: "한식", active: true },
+  { name: "킹콩부대찌개", category: "한식", active: true },
+  { name: "화포식당", category: "한식", active: true },
+  { name: "배꼽집", category: "한식", active: true },
+  { name: "북촌손만두", category: "분식", active: true },
+  { name: "장정정", category: "기타", active: true },
+  { name: "핵밥", category: "기타", active: true },
+  { name: "보말진칼국수김밥", category: "한식", active: true },
+  { name: "퀴즈노스", category: "기타", active: true },
+  { name: "송추가마골 인어반", category: "한식", active: true },
+  { name: "용무있습니까", category: "중식", active: true },
+  { name: "맘스터치", category: "햄버거", active: true },
+  { name: "순대실록", category: "한식", active: true },
+  { name: "미도인", category: "일식", active: true },
+  { name: "브라운돈까스", category: "일식", active: true },
+  { name: "뚜띠쿠치나", category: "양식", active: true },
+  { name: "맥도날드", category: "햄버거", active: true },
+  { name: "시골보쌈&감자옹심이", category: "한식", active: true },
+  { name: "오한수우육면가", category: "중식", active: true },
+  { name: "오늘은 덮밥", category: "한식", active: true },
+  { name: "한솥도시락", category: "한식", active: true },
+  { name: "참치공방", category: "일식", active: true },
+  { name: "KGIT푸드코트", category: "기타", active: true },
+  { name: "슬로우캘리", category: "기타", active: true },
+  { name: "류차이나", category: "중식", active: true },
+  { name: "개미집", category: "한식", active: true },
+  { name: "전설의우대갈비", category: "한식", active: true },
+  { name: "동남쌀국", category: "동남아", active: true },
+  { name: "밥(B.O.B)", category: "한식", active: true },
+  { name: "마이클돈까스", category: "일식", active: true },
+  { name: "장독대 김치찌개", category: "한식", active: true },
+  { name: "추천해꼬막짬뽕", category: "중식", active: true },
+  { name: "크라이치즈버거", category: "햄버거", active: true }
 ];
 
+const restaurantSeedVersion = "sangam-restaurants-2026-04";
+const restaurantSeedVersionKey = "mole-restaurant-seed-version";
 const colors = ["#5B3E2E", "#8A6248", "#B88C64", "#6C503D", "#9C795A", "#76634B", "#C29D75", "#4C382D"];
 const canvas = document.getElementById("wheel");
 const ctx = canvas.getContext("2d");
@@ -42,9 +84,21 @@ let rainCleanupTimer;
 function loadRestaurants() {
   try {
     const saved = JSON.parse(localStorage.getItem("mole-restaurants"));
-    return Array.isArray(saved) && saved.length ? saved : initialRestaurants;
+    if (Array.isArray(saved) && saved.length) {
+      if (localStorage.getItem(restaurantSeedVersionKey) === restaurantSeedVersion) return saved;
+
+      const savedNames = new Set(saved.map((item) => item.name.trim().toLocaleLowerCase("ko-KR")));
+      const additions = initialRestaurants.filter((item) => !savedNames.has(item.name.toLocaleLowerCase("ko-KR")));
+      const merged = [...saved, ...additions];
+      localStorage.setItem("mole-restaurants", JSON.stringify(merged));
+      localStorage.setItem(restaurantSeedVersionKey, restaurantSeedVersion);
+      return merged;
+    }
+
+    localStorage.setItem(restaurantSeedVersionKey, restaurantSeedVersion);
+    return initialRestaurants.map((item) => ({ ...item }));
   } catch {
-    return initialRestaurants;
+    return initialRestaurants.map((item) => ({ ...item }));
   }
 }
 
