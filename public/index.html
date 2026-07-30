@@ -168,6 +168,13 @@
   </main>
 
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script>
+    window.MOLE_API_CONFIG = {
+      enabled: location.hostname === "localhost"
+        || location.hostname === "127.0.0.1"
+        || location.hostname.endsWith(".vercel.app")
+    };
+  </script>
   <script src="app.js"></script>
 </body>
 </html>

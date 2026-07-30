@@ -4,21 +4,14 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "vinext dev",
-    "build": "vinext build && node -e \"const fs=require('node:fs');fs.mkdirSync('dist/.openai',{recursive:true});fs.copyFileSync('.openai/hosting.json','dist/.openai/hosting.json')\"",
-    "start": "vinext start"
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start"
   },
   "dependencies": {
+    "@neondatabase/serverless": "^1.0.2",
     "next": "^16.0.0",
     "react": "^19.2.6",
-    "react-dom": "^19.2.6",
-    "react-server-dom-webpack": "^19.2.6"
-  },
-  "devDependencies": {
-    "@cloudflare/vite-plugin": "latest",
-    "@vitejs/plugin-react": "latest",
-    "@vitejs/plugin-rsc": "latest",
-    "vinext": "latest",
-    "vite": "^8.0.0"
+    "react-dom": "^19.2.6"
   }
 }

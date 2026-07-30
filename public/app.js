@@ -72,6 +72,8 @@ const newRestaurant = document.getElementById("newRestaurant");
 const newCategory = document.getElementById("newCategory");
 const toast = document.getElementById("toast");
 const soundButton = document.getElementById("soundButton");
+const apiConfig = window.MOLE_API_CONFIG || {};
+const databaseEnabled = Boolean(apiConfig.enabled);
 
 let restaurants = loadRestaurants();
 let currentFilter = "전체";
@@ -104,6 +106,55 @@ function loadRestaurants() {
 
 function saveRestaurants() {
   localStorage.setItem("mole-restaurants", JSON.stringify(restaurants));
+}
+
+function restaurantKey(item) {
+  return `${item.name.trim().toLocaleLowerCase("ko-KR")}|${item.category}`;
+}
+
+async function databaseRequest(options = {}) {
+  const response = await fetch("/api/restaurants", {
+    ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...(options.headers || {})
+    }
+  });
+
+  const payload = await response.json().catch(() => null);
+  if (!response.ok) {
+    const error = new Error(payload?.error || `Database request failed: ${response.status}`);
+    error.code = payload?.code;
+    throw error;
+  }
+
+  return payload;
+}
+
+async function syncSharedRestaurants({ silent = false } = {}) {
+  if (!databaseEnabled) return;
+
+  try {
+    const shared = await databaseRequest();
+    const activeByKey = new Map(restaurants.map((item) => [restaurantKey(item), item.active]));
+    const sharedKeys = new Set(shared.map(restaurantKey));
+    const localItems = restaurants.filter((item) => !item.shared && !sharedKeys.has(restaurantKey(item)));
+
+    restaurants = [
+      ...localItems,
+      ...shared.map((item) => ({
+        ...item,
+        active: activeByKey.get(restaurantKey(item)) ?? true,
+        shared: true
+      }))
+    ];
+    saveRestaurants();
+    renderFilters();
+    renderList();
+  } catch (error) {
+    console.error("공유 맛집을 불러오지 못했습니다.", error);
+    if (!silent) showToast("공유 맛집 연결이 잠시 원활하지 않아요.");
+  }
 }
 
 function selectedRestaurants() {
@@ -147,7 +198,9 @@ function renderList() {
       <label class="check-ui" for="restaurant-${item.originalIndex}" aria-label="${escapeHtml(item.name)} 선택">${item.active ? "✓" : ""}</label>
       <label class="restaurant-name" for="restaurant-${item.originalIndex}">${escapeHtml(item.name)}</label>
       <span class="category-tag">${escapeHtml(item.category)}</span>
-      <button class="delete-button" type="button" data-delete="${item.originalIndex}" aria-label="${escapeHtml(item.name)} 삭제">×</button>
+      ${item.shared
+        ? `<span class="shared-mark" title="모두에게 공유된 맛집" aria-label="공유된 맛집">공유</span>`
+        : `<button class="delete-button" type="button" data-delete="${item.originalIndex}" aria-label="${escapeHtml(item.name)} 삭제">×</button>`}
     </div>
   `).join("") : `<p class="hint">이 카테고리에는 아직 맛집이 없어요.</p>`;
 
@@ -386,7 +439,7 @@ restaurantList.addEventListener("click", (event) => {
   renderList();
 });
 
-addForm.addEventListener("submit", (event) => {
+addForm.addEventListener("submit", async (event) => {
   event.preventDefault();
   const name = newRestaurant.value.trim();
   if (!name) {
@@ -398,13 +451,38 @@ addForm.addEventListener("submit", (event) => {
     showToast("이미 등록된 맛집이에요.");
     return;
   }
-  restaurants.push({ name, category: newCategory.value, active: true });
+  const category = newCategory.value;
+  let newItem = { name, category, active: true };
+  const submitButton = addForm.querySelector('button[type="submit"]');
+
+  if (databaseEnabled) {
+    submitButton.disabled = true;
+    try {
+      const inserted = await databaseRequest({
+        method: "POST",
+        body: JSON.stringify({ name, category })
+      });
+      newItem = { ...inserted, active: true, shared: true };
+    } catch (error) {
+      if (error.code === "DUPLICATE") {
+        showToast("이미 공유 목록에 등록된 맛집이에요.");
+      } else {
+        console.error("맛집 공유 저장에 실패했습니다.", error);
+        showToast("공유 저장에 실패했어요. 잠시 후 다시 시도해 주세요.");
+      }
+      return;
+    } finally {
+      submitButton.disabled = false;
+    }
+  }
+
+  restaurants.push(newItem);
   currentFilter = "전체";
   saveRestaurants();
   newRestaurant.value = "";
   renderFilters();
   renderList();
-  showToast(`${name}을(를) 추가했어요!`);
+  showToast(databaseEnabled ? `${name}을(를) 모두에게 공유했어요!` : `${name}을(를) 추가했어요!`);
 });
 
 soundButton.addEventListener("click", () => {
@@ -419,7 +497,13 @@ window.addEventListener("resize", () => {
   drawWheel();
   updateCategoryArrows();
 });
+window.addEventListener("focus", () => syncSharedRestaurants({ silent: true }));
+document.addEventListener("visibilitychange", () => {
+  if (!document.hidden) syncSharedRestaurants({ silent: true });
+});
+window.setInterval(() => syncSharedRestaurants({ silent: true }), 60000);
 document.fonts?.ready.then(drawWheel);
 
 renderFilters();
 renderList();
+syncSharedRestaurants();

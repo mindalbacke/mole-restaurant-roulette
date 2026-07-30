@@ -395,6 +395,7 @@ main { position: relative; z-index: 1; width: min(1180px, calc(100% - 40px)); ma
 .category-tag { color: var(--muted); font-size: 11px; white-space: nowrap; }
 .delete-button { border: 0; background: transparent; color: #a79a8d; font-size: 19px; line-height: 1; cursor: pointer; border-radius: 50%; }
 .delete-button:hover { color: var(--brown-dark); background: #cba98a; }
+.shared-mark { color: var(--orange-dark); font-size: 9px; font-weight: 800; text-align: center; }
 
 .add-form { margin-top: auto; padding-top: 20px; }
 .add-form label { display: block; margin-bottom: 8px; font-size: 12px; font-weight: 800; }
