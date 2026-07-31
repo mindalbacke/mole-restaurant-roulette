@@ -93,7 +93,7 @@ button { color: inherit; }
   mix-blend-mode: multiply;
 }
 
-main { position: relative; z-index: 1; width: min(1180px, calc(100% - 40px)); margin: 0 auto; padding-bottom: 72px; }
+main { position: relative; z-index: 1; width: min(1180px, calc(100% - 40px)); margin: 0 auto; padding-bottom: 36px; }
 
 .topbar {
   height: 84px;
@@ -419,7 +419,7 @@ main { position: relative; z-index: 1; width: min(1180px, calc(100% - 40px)); ma
 }
 
 @media (max-width: 520px) {
-  main { width: min(100% - 20px, 470px); padding-bottom: 40px; }
+  main { width: min(100% - 20px, 470px); padding-bottom: 20px; }
   .topbar { height: 66px; }
   .hero { padding: 42px 0 32px; }
   .hero h1 { font-size: 40px; }
